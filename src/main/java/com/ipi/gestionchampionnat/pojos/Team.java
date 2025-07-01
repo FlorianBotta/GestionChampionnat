@@ -27,6 +27,22 @@ public class Team {
     @JoinColumn(name = "country_id")
     private Country country;
 
+    public Team(String name, Date creationDate, String logo, String coach, String president, String status, String siege, String phone, String webSite) {
+        this.name = name;
+        this.creationDate = creationDate;
+        this.logo = logo;
+        this.coach = coach;
+        this.president = president;
+        this.status = status;
+        this.siege = siege;
+        this.phone = phone;
+        this.webSite = webSite;
+    }
+
+    public Team() {
+
+    }
+
     public Long getId() {
         return id;
     }

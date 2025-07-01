@@ -17,6 +17,18 @@ public class Game {
     @JoinColumn(name = "day_id")
     private Day day;
 
+    public Game(Integer team1Point, Integer team2Point, Integer idTeam1, Integer idTeam2, Day day) {
+        this.team1Point = team1Point;
+        this.team2Point = team2Point;
+        this.idTeam1 = idTeam1;
+        this.idTeam2 = idTeam2;
+        this.day = day;
+    }
+
+    public Game() {
+
+    }
+
     public Long getId() {
         return id;
     }

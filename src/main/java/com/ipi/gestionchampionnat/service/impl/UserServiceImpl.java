@@ -4,6 +4,7 @@ import com.ipi.gestionchampionnat.dao.UserDao;
 import com.ipi.gestionchampionnat.pojos.User;
 import com.ipi.gestionchampionnat.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +14,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public User ajouterUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(true);
+        if (user.getRole() == null) {
+            user.setRole("USER");
+        }
         return userDao.save(user);
     }
 
@@ -45,10 +54,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User connecterUser(String email, String password) {
-        User user = userDao.findByEmail(email);
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        }
         return null;
     }
 }
