@@ -16,6 +16,16 @@ public class Stadium {
     private Integer capacity;
     private String phone;
 
+    public Stadium() {
+    }
+
+    public Stadium(String name, String address, Integer capacity, String phone) {
+        this.name = name;
+        this.address = address;
+        this.capacity = capacity;
+        this.phone = phone;
+    }
+
     public Long getId() {
         return id;
     }

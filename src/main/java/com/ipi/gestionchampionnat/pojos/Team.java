@@ -27,7 +27,7 @@ public class Team {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    public Team(String name, Date creationDate, String logo, String coach, String president, String status, String siege, String phone, String webSite) {
+    public Team(String name, Date creationDate, String logo, String coach, String president, String status, String siege, String phone, String webSite, Stadium stadium, Country country) {
         this.name = name;
         this.creationDate = creationDate;
         this.logo = logo;
@@ -37,6 +37,8 @@ public class Team {
         this.siege = siege;
         this.phone = phone;
         this.webSite = webSite;
+        this.stadium = stadium;
+        this.country = country;
     }
 
     public Team() {

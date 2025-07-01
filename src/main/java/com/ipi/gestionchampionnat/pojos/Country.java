@@ -12,6 +12,14 @@ public class Country {
     private String name;
     private String logo;
 
+    public Country() {
+
+    }
+    public Country(String name, String logo) {
+        this.name = name;
+        this.logo = logo;
+    }
+
     public Long getId() {
         return id;
     }

@@ -4,6 +4,14 @@ import jakarta.persistence.*;
 
 @Entity
 public class TeamChampionship {
+    public TeamChampionship() {
+    }
+
+    public TeamChampionship(Championship championship, Team team) {
+        this.championship = championship;
+        this.team = team;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

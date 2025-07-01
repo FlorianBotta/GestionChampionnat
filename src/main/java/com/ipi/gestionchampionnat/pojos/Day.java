@@ -14,6 +14,14 @@ public class Day {
     @JoinColumn(name = "championship_id")
     private Championship championship;
 
+    public Day() {
+    }
+
+    public Day(String number, Championship championship) {
+        this.number = number;
+        this.championship = championship;
+    }
+
     public Long getId() {
         return id;
     }

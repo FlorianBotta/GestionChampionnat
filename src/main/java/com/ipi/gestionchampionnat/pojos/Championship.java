@@ -18,6 +18,20 @@ public class Championship {
     private Integer drawPoint;
     private String typeRanking;
 
+    public Championship() {
+    }
+
+    public Championship(String name, String logo, Date startDate, Date endDate, Integer wonPoint, Integer lostPoint, Integer drawPoint, String typeRanking) {
+        this.name = name;
+        this.logo = logo;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.wonPoint = wonPoint;
+        this.lostPoint = lostPoint;
+        this.drawPoint = drawPoint;
+        this.typeRanking = typeRanking;
+    }
+
     public Long getId() {
         return id;
     }

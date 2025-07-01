@@ -10,14 +10,20 @@ public class Game {
 
     private Integer team1Point;
     private Integer team2Point;
-    private Integer idTeam1;
-    private Integer idTeam2;
 
     @ManyToOne
     @JoinColumn(name = "day_id")
     private Day day;
 
-    public Game(Integer team1Point, Integer team2Point, Integer idTeam1, Integer idTeam2, Day day) {
+    @ManyToOne
+    @JoinColumn(name = "team1_id")
+    private Team idTeam1;
+
+    @ManyToOne
+    @JoinColumn(name = "team2_id")
+    private Team idTeam2;
+
+    public Game(Integer team1Point, Integer team2Point, Team idTeam1, Team idTeam2, Day day) {
         this.team1Point = team1Point;
         this.team2Point = team2Point;
         this.idTeam1 = idTeam1;
@@ -53,20 +59,20 @@ public class Game {
         this.team2Point = team2Point;
     }
 
-    public Integer getIdTeam1() {
-        return idTeam1;
-    }
-
-    public void setIdTeam1(Integer idTeam1) {
-        this.idTeam1 = idTeam1;
-    }
-
-    public Integer getIdTeam2() {
+    public Team getIdTeam2() {
         return idTeam2;
     }
 
-    public void setIdTeam2(Integer idTeam2) {
+    public void setIdTeam2(Team idTeam2) {
         this.idTeam2 = idTeam2;
+    }
+
+    public Team getIdTeam1() {
+        return idTeam1;
+    }
+
+    public void setIdTeam1(Team idTeam1) {
+        this.idTeam1 = idTeam1;
     }
 
     public Day getDay() {

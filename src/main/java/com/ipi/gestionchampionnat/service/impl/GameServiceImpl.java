@@ -3,6 +3,7 @@ package com.ipi.gestionchampionnat.service.impl;
 import com.ipi.gestionchampionnat.dao.GameDao;
 import com.ipi.gestionchampionnat.pojos.Day;
 import com.ipi.gestionchampionnat.pojos.Game;
+import com.ipi.gestionchampionnat.pojos.Team;
 import com.ipi.gestionchampionnat.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,7 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public List<Game> recupererGamesByTeam(Integer teamId) {
+    public List<Game> recupererGamesByTeam(Team teamId) {
         return gameDao.findByIdTeam1OrIdTeam2(teamId, teamId);
     }
 }
