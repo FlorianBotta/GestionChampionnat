@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gestion des matchs - Admin</title>
+    <link rel="stylesheet" href="admin-games.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Gestion des matchs</h1>
+    <button class="add-game" onclick="window.location.href='admin-game-form.html'">➕ Ajouter un match</button>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Équipe 1</th>
+            <th>Points Équipe 1</th>
+            <th>Équipe 2</th>
+            <th>Points Équipe 2</th>
+            <th>Jour</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody id="games-table-body">
+        <!-- Rempli par JS -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Exemple de données — à remplacer par appels backend
+    const teams = [
+        { id: 1, name: "Paris Saint-Germain" },
+        { id: 2, name: "Olympique Lyonnais" },
+        { id: 3, name: "AS Monaco" },
+    ];
+
+    const days = [
+        { id: 1, number: "Journée 1" },
+        { id: 2, number: "Journée 2" },
+    ];
+
+    const games = [
+        {
+            id: 1,
+            idTeam1: 1,
+            idTeam2: 2,
+            team1Point: 3,
+            team2Point: 1,
+            idDay: 1,
+        },
+        {
+            id: 2,
+            idTeam1: 2,
+            idTeam2: 3,
+            team1Point: 0,
+            team2Point: 0,
+            idDay: 2,
+        },
+    ];
+
+    const tbody = document.getElementById('games-table-body');
+
+    function getTeamName(id) {
+        const team = teams.find(t => t.id === id);
+        return team ? team.name : "Inconnu";
+    }
+
+    function getDayNumber(id) {
+        const day = days.find(d => d.id === id);
+        return day ? day.number : "Inconnu";
+    }
+
+    function createRow(game) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+        <td>${getTeamName(game.idTeam1)}</td>
+        <td>${game.team1Point}</td>
+        <td>${getTeamName(game.idTeam2)}</td>
+        <td>${game.team2Point}</td>
+        <td>${getDayNumber(game.idDay)}</td>
+        <td class="actions">
+          <button class="edit" onclick="editGame(${game.id})">✏️ Modifier</button>
+          <button class="delete" onclick="deleteGame(${game.id})">🗑️ Supprimer</button>
+        </td>
+      `;
+        return tr;
+    }
+
+    function loadGames() {
+        tbody.innerHTML = '';
+        games.forEach(game => {
+            tbody.appendChild(createRow(game));
+        });
+    }
+
+    function editGame(id) {
+        window.location.href = `admin-game-form.html?id=${id}`;
+    }
+
+    function deleteGame(id) {
+        if (confirm("Voulez-vous vraiment supprimer ce match ?")) {
+            const index = games.findIndex(g => g.id === id);
+            if (index !== -1) {
+                games.splice(index, 1);
+                loadGames();
+                alert("Match supprimé !");
+            }
+        }
+    }
+
+    loadGames();
+</script>
+</body>
+</html>

@@ -13,6 +13,6 @@ public class LoginController {
 
     @GetMapping("/admin/dashboard")
     public String dashboard() {
-        return "dashboard";
+        return "admin/dashboard";
     }
 }

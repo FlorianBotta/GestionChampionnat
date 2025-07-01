@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Équipes</title>
+    <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header id="header">
+    <div class="header-top">
+        <a href="/" th:href="@{/}"><h1 id="titreApp">Gestion des Championnats</h1></a>
+        <div id="loginBar">
+            <!-- Show when user is logged in -->
+            <div class="login" th:if="${session.userConnected != null}">
+                <span th:text="${'Bienvenue ' + session.userConnected.username}">Bienvenue</span>
+                <a class="primaryBtn logout" href="/logout" th:href="@{/logout}">Déconnexion</a>
+            </div>
+
+            <!-- Show when user is not logged in -->
+            <div class="login" th:if="${session.userConnected == null}">
+                <a class="primaryBtn login" href="/login" th:href="@{/login}">Connexion</a>
+            </div>
+        </div>
+    </div>
+    <div id="menu">
+        <nav>
+            <ul>
+                <li><a href="/teams" th:href="@{/teams}">Équipes</a></li>
+                <li><a href="/standings" th:href="@{/standings}">Classements</a></li>
+                <li><a href="/" th:href="@{/}">Championnats</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="teams-container">
+        <div th:each="team : ${teams}" class="team-card">
+            <img th:src="@{'/img/' + ${team.logo}}" th:alt="${team.name}" class="team-logo" />
+            <h3 th:text="${team.name}">Nom de l'équipe</h3>
+            <p><strong>Coach :</strong> <span th:text="${team.coach}">Nom du coach</span></p>
+            <p><strong>Pays :</strong> <span th:text="${team.country.name}">Pays</span></p>
+            <p>
+                <a th:href="${team.webSite}" target="_blank">Site officiel</a>
+            </p>
+        </div>
+    </div>
+</main>
+
+<footer>
+    &copy; 2025 - Application Championnat
+</footer>
+
+</body>
+</html>

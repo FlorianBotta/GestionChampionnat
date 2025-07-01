@@ -11,7 +11,6 @@ import java.util.List;
 @Repository
 public interface GameDao extends JpaRepository<Game, Long> {
     List<Game> findByDay(Day day);
-
     List<Game> findByIdTeam1OrIdTeam2(Team team1Id, Team team2Id);
 }
 
