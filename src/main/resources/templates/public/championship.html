@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Matchs - [[${championship.name}]]</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <h1 th:text="'Matchs du championnat : ' + ${championship.name}">Matchs</h1>
+
+    <table class="styled-table">
+        <thead>
+        <tr>
+            <th>Équipe 1</th>
+            <th>Score</th>
+            <th>Équipe 2</th>
+            <th>Journée</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="day : ${days}">
+            <h3 th:text="'Journée ' + ${day.number}"></h3>
+            <div th:if="${gamesByDay.get(day.id).isEmpty()}">
+                Pas de matchs pour cette journée
+            </div>
+            <div th:each="game : ${gamesByDay.get(day.id)}">
+                <span th:text="${game.idTeam1.name}"></span>
+                <span th:text="${game.team1Point}"></span> -
+                <span th:text="${game.team2Point}"></span>
+                <span th:text="${game.idTeam2.name}"></span>
+            </div>
+        </div>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

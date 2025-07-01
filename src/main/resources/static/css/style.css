@@ -312,21 +312,6 @@ a {
     align-items: center;
 }
 
-/* Category/Championship navigation styling */
-#categorie {
-    background-color: #34495e;
-    padding: 0 20px;
-    overflow-x: auto;
-}
-
-#categorie ul {
-    list-style-type: none;
-    display: flex;
-    flex-wrap: nowrap;
-    margin: 0;
-    padding: 0;
-}
-
 /* Menu styling */
 #menu {
     background-color: #ecf0f1;

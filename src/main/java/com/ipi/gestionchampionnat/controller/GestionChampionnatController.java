@@ -11,11 +11,12 @@ import com.ipi.gestionchampionnat.service.TeamService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/")
@@ -50,42 +51,37 @@ public class GestionChampionnatController {
         return "public/index";
     }
 
-    @GetMapping("/championship/{championshipId}")
-    public String showChampionship(@PathVariable Long championshipId, Model model) {
-        List<Championship> championships = championshipService.recupererChampionships();
-        model.addAttribute("championships", championships);
-
-        // Changed from getChampionshipById to recupererChampionship
+    @GetMapping("/championship")
+    public String showChampionship(Model model, @RequestParam Long championshipId) {
         Championship championship = championshipService.recupererChampionship(championshipId);
-        if (championship != null) {
-            model.addAttribute("selectedChampionship", championship);
-            model.addAttribute("selectedChampionshipId", championshipId);
 
-            // Changed from getDaysByChampionshipId to recupererDaysByChampionship
-            List<Day> days = dayService.recupererDaysByChampionship(championship);
-            model.addAttribute("days", days);
-
-            // If there are days, default to showing the first day's games
-            if (!days.isEmpty()) {
-                Day firstDay = days.get(0);
-                model.addAttribute("selectedDayId", firstDay.getId());
-
-                // Update this line when you have the equivalent method in GameService
-                List<Game> games = gameService.recupererGamesByDay(firstDay);
-                model.addAttribute("games", games);
-            }
+        if (championship == null) {
+            return "public/index";
         }
 
-        return "public/index";
+        List<Day> days = dayService.recupererDaysByChampionship(championship);
+        model.addAttribute("days", days);
+        model.addAttribute("championship", championship);
+
+        // Une Map pour stocker les matchs par jour
+        Map<Long, List<Game>> gamesByDay = new HashMap<>();
+
+        // Récupérer tous les matchs pour chaque jour
+        for (Day day : days) {
+            List<Game> games = gameService.recupererGamesByDay(day);
+            gamesByDay.put(day.getId(), games);
+        }
+
+        model.addAttribute("gamesByDay", gamesByDay);
+
+        return "public/championship";
     }
 
     @GetMapping("/teams")
     public String listTeams(Model model) {
         List<Team> teams = teamService.recupererTeams();
-        List<Championship> championships = championshipService.recupererChampionships();
 
         model.addAttribute("teams", teams);
-        model.addAttribute("championships", championships);
 
         return "public/teams";
     }

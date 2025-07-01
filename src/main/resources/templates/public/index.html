@@ -21,15 +21,6 @@
             </div>
         </div>
     </div>
-    <div id="categorie">
-        <ul>
-            <li th:each="championship : ${championships}"
-                th:class="${selectedChampionshipId != null && selectedChampionshipId == championship.id ? 'selected' : ''}">
-                <a th:href="@{'/championship/' + ${championship.id}}"
-                   th:text="${championship.name}">Nom du championnat</a>
-            </li>
-        </ul>
-    </div>
     <div id="menu">
         <nav>
             <ul>
@@ -50,7 +41,7 @@
                     <img class="championship-logo" data-th-if="${championship.logo}"
                          data-th-src="@{'img/' + ${championship.logo}}"
                          alt="Logo" src="img/ligue1.png"/>
-                    <a data-th-href="@{'/championship?id=' + ${championship.id}}">
+                    <a data-th-href="@{'/championship?championshipId=' + ${championship.id}}">
                         <h3 class="championship-title" data-th-text="${championship.name}">
                             Nom du championnat
                         </h3>
