@@ -9,7 +9,7 @@
 
 <header id="header">
     <div class="header-top">
-        <a href="/" th:href="@{/}"><h1 id="titreApp">Gestion des Championnats</h1></a>
+        <a href="/" th:href="@{/}"><h1 id="titreApp">Équipes</h1></a>
         <div id="loginBar">
             <!-- Show when user is logged in -->
             <div class="login" th:if="${session.userConnected != null}">
@@ -33,21 +33,41 @@
         </nav>
     </div>
 </header>
-<main>
-    <div class="teams-container">
-        <div th:each="team : ${teams}" class="team-card">
-            <img th:src="@{'/img/' + ${team.logo}}" th:alt="${team.name}" class="team-logo"/>
-            <h3><a th:href="@{'/team?teamId=' + ${team.id}}" th:text="${team.name}">Nom de l'équipe</a></h3>
-<!--            <h3 th:text="${team.name}">Nom de l'équipe</h3>-->
-            <p><strong>Coach :</strong> <span th:text="${team.coach}">Nom du coach</span></p>
-            <p><strong>Pays :</strong> <span th:text="${team.country.name}">Pays</span></p>
-            <p>
-                <a th:href="${team.webSite}" target="_blank">Site officiel</a>
-            </p>
+<div>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Équipes</h1>
         </div>
-    </div>
-</main>
 
+        <div class="alert alert-success" th:if="${successMessage}" th:text="${successMessage}"></div>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th>Logo</th>
+                <th>Nom</th>
+                <th>Pays</th>
+                <th>Coach</th>
+                <th>Stade</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="team : ${teams}">
+                <td>
+                    <img th:if="${team.logo}" th:src="@{'/img/' + ${team.logo}}" alt="Logo" class="img-fluid" style="max-height: 40px;">
+                    <span th:unless="${team.logo}">Aucun logo</span>
+                </td>
+                <td><a th:href="@{'/team?teamId=' + ${team.id}}" th:text="${team.name}">Team Name</a></td>
+                <td th:text="${team.country != null ? team.country.name : 'Non défini'}">Country</td>
+                <td th:text="${team.coach}">Coach</td>
+                <td th:text="${team.stadium != null ? team.stadium.name : 'Non défini'}">Stadium</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(teams)}">
+                <td colspan="6" class="text-center">Aucune équipe trouvée</td>
+            </tr>
+            </tbody>
+        </table>
+</div>
 <footer>
     &copy; 2025 - Application Championnat
 </footer>
