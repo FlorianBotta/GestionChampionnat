@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <title>Détails de l'équipe</title>
+    <style>
+        .team-container {
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .team-info {
+            flex: 1;
+        }
+
+        .team-logo {
+            max-width: 150px;
+            max-height: 150px;
+            margin-left: 20px;
+        }
+
+        .team-info h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .team-info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        .section-title {
+            background-color: #e0e0e0;
+            padding: 10px;
+            margin: 20px 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .section-content {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .section-content p {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+<header id="header">
+    <div class="header-top">
+        <a href="/" th:href="@{/}"><h1 id="titreApp">Gestion des Championnats</h1></a>
+        <div id="loginBar">
+            <!-- Show when user is logged in -->
+            <div class="login" th:if="${session.userConnected != null}">
+                <span th:text="${'Bienvenue ' + session.userConnected.username}">Bienvenue</span>
+                <a class="primaryBtn logout" href="/logout" th:href="@{/logout}">Déconnexion</a>
+            </div>
+
+            <!-- Show when user is not logged in -->
+            <div class="login" th:if="${session.userConnected == null}">
+                <a class="primaryBtn login" href="/login" th:href="@{/login}">Connexion</a>
+            </div>
+        </div>
+    </div>
+    <div id="menu">
+        <nav>
+            <ul>
+                <li><a href="/teams" th:href="@{/teams}">Équipes</a></li>
+                <li><a href="/standings" th:href="@{/standings}">Classements</a></li>
+                <li><a href="/" th:href="@{/}">Championnats</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div id="global">
+    <div class="team-container" th:if="${team != null}">
+        <!-- Team Header with basic info and logo -->
+        <div class="team-header">
+            <div class="team-info">
+                <h1 th:text="${team.country != null ? team.country.name : ''}">Lyon</h1>
+
+                <p><strong>Nom : </strong><span th:text="${team.name}">Olympique Lyonnais</span></p>
+                <p><strong>Fondé en : </strong><span th:text="${#dates.format(team.creationDate, 'yyyy')}">1950</span></p>
+                <p><strong>Président : </strong><span th:text="${team.president}">John Textor</span></p>
+                <p><strong>Entraineur : </strong><span th:text="${team.coach}">Paulo FONSECA</span></p>
+            </div>
+
+            <!-- Team Logo -->
+            <div>
+                <img class="team-logo" th:if="${team.logo}" th:src="@{'/img/' + ${team.logo}}" alt="Logo équipe" src="/img/default-team.png"/>
+            </div>
+        </div>
+
+        <!-- Administrative Section -->
+        <div>
+            <div class="section-title" onclick="toggleSection('admin-section')">
+                <h3>Administratif</h3>
+                <span>▼</span>
+            </div>
+            <div id="admin-section" class="section-content">
+                <p><strong>Site officiel : </strong><a th:href="${team.webSite}" th:text="${team.webSite}">https://www.ol.fr</a></p>
+                <p><strong>Statut : </strong><span th:text="${team.status}">SASP</span></p>
+                <p><strong>Siège : </strong><span th:text="${team.siege}">10 Avenue Simone Veil</span></p>
+                <p><strong>Téléphone : </strong><span th:text="${team.phone}">04.72.69.69.69</span></p>
+            </div>
+        </div>
+
+        <!-- Stadium Section -->
+        <div th:if="${team.stadium != null}">
+            <div class="section-title" onclick="toggleSection('stadium-section')">
+                <h3 th:text="${'Stade de ' + (team.country != null ? team.country.name : '')}">Stade de Lyon</h3>
+                <span>▼</span>
+            </div>
+            <div id="stadium-section" class="section-content">
+                <p><strong>Stade : </strong><span th:text="${team.stadium.name}">Groupama Stadium</span></p>
+                <p><strong>Capacité : </strong><span th:text="${team.stadium.capacity + ' places'}">59186 places</span></p>
+                <p><strong>Adresse du stade : </strong><span th:text="${team.stadium.address}">10 Avenue Simone Veil, 69150 Décines-Charpieu</span></p>
+                <p><strong>Tél. Stade : </strong><span th:text="${team.stadium.phone}">08.92.69.69.69</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer id="piedBlog">
+    &copy; 2025 - Gestion des championnats
+</footer>
+
+<script>
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        const isVisible = section.style.display !== 'none';
+
+        if (isVisible) {
+            section.style.display = 'none';
+            section.previousElementSibling.querySelector('span').textContent = '▶';
+        } else {
+            section.style.display = 'block';
+            section.previousElementSibling.querySelector('span').textContent = '▼';
+        }
+    }
+</script>
+</body>
+</html>

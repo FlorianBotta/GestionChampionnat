@@ -85,5 +85,16 @@ public class GestionChampionnatController {
 
         return "public/teams";
     }
+    @GetMapping("/team")
+    public String showTeamDetails(@RequestParam Long teamId, Model model) {
+        Team team = teamService.recupererTeam(teamId);
+
+        if (team == null) {
+            return "redirect:/teams";
+        }
+
+        model.addAttribute("team", team);
+        return "public/team-details";
+    }
 
 }

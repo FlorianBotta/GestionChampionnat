@@ -6,29 +6,46 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<header id="header">
+    <div class="header-top">
+        <a href="/" th:href="@{/}"><h1 id="titreApp">Gestion des Championnats</h1></a>
+        <div id="loginBar">
+            <!-- Show when user is logged in -->
+            <div class="login" th:if="${session.userConnected != null}">
+                <span th:text="${'Bienvenue ' + session.userConnected.username}">Bienvenue</span>
+                <a class="primaryBtn logout" href="/logout" th:href="@{/logout}">Déconnexion</a>
+            </div>
+
+            <!-- Show when user is not logged in -->
+            <div class="login" th:if="${session.userConnected == null}">
+                <a class="primaryBtn login" href="/login" th:href="@{/login}">Connexion</a>
+            </div>
+        </div>
+    </div>
+    <div id="menu">
+        <nav>
+            <ul>
+                <li><a href="/teams" th:href="@{/teams}">Équipes</a></li>
+                <li><a href="/standings" th:href="@{/standings}">Classements</a></li>
+                <li><a href="/" th:href="@{/}">Championnats</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
 <div class="container">
     <h1 th:text="'Matchs du championnat : ' + ${championship.name}">Matchs</h1>
-
     <table class="styled-table">
-        <thead>
-        <tr>
-            <th>Équipe 1</th>
-            <th>Score</th>
-            <th>Équipe 2</th>
-            <th>Journée</th>
-        </tr>
-        </thead>
         <tbody>
         <div th:each="day : ${days}">
-            <h3 th:text="'Journée ' + ${day.number}"></h3>
+            <h3 th:text="${day.number}"></h3>
             <div th:if="${gamesByDay.get(day.id).isEmpty()}">
                 Pas de matchs pour cette journée
             </div>
             <div th:each="game : ${gamesByDay.get(day.id)}">
-                <span th:text="${game.idTeam1.name}"></span>
+                <a th:href="@{'/team?teamId=' + ${game.idTeam1.id}}" th:text="${game.idTeam1.name}">Nom de l'équipe</a>
                 <span th:text="${game.team1Point}"></span> -
                 <span th:text="${game.team2Point}"></span>
-                <span th:text="${game.idTeam2.name}"></span>
+                <a th:href="@{'/team?teamId=' + ${game.idTeam2.id}}" th:text="${game.idTeam2.name}">Nom de l'équipe</a>
             </div>
         </div>
         </tbody>
