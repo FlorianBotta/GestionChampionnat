@@ -13,4 +13,5 @@ public interface TeamService {
     void supprimerTeam(Long id);
     List<Team> recupererTeamsByCountry(Country country);
     Team recupererTeamByName(String name);
+    List<Team> recupererTeamsOrderByCreationDate();
 }

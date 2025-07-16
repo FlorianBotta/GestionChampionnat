@@ -1,7 +1,7 @@
 package com.ipi.gestionchampionnat.pojos;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 public class Team {
@@ -10,7 +10,7 @@ public class Team {
     private Long id;
 
     private String name;
-    private Date creationDate;
+    private LocalDate creationDate;
     private String logo;
     private String coach;
     private String president;
@@ -27,7 +27,7 @@ public class Team {
     @JoinColumn(name = "country_id")
     private Country country;
 
-    public Team(String name, Date creationDate, String logo, String coach, String president, String status, String siege, String phone, String webSite, Stadium stadium, Country country) {
+    public Team(String name, LocalDate creationDate, String logo, String coach, String president, String status, String siege, String phone, String webSite, Stadium stadium, Country country) {
         this.name = name;
         this.creationDate = creationDate;
         this.logo = logo;
@@ -61,11 +61,11 @@ public class Team {
         this.name = name;
     }
 
-    public Date getCreationDate() {
+    public LocalDate getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
 

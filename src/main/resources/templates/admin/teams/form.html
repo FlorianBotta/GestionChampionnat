@@ -20,10 +20,9 @@
 <div class="container mt-4">
     <h1 th:text="${team.id == null ? 'Créer une nouvelle équipe' : 'Modifier l''équipe'}">Équipe</h1>
 
-    <form th:action="@{/admin/teams/save}" method="post"
-          th:object="${team}"
-          enctype="multipart/form-data">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+    <form th:action="@{/admin/teams/save}" method="post" th:object="${team}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:field="*{id}" />
 
         <div class="row mb-3">
             <div class="col-md-6">
@@ -56,7 +55,7 @@
                 <div class="mb-3">
                     <label for="creationDate" class="form-label">Date de création</label>
                     <input type="date" class="form-control" id="creationDate"
-                           th:value="${team.creationDate != null ? #dates.format(team.creationDate, 'yyyy-MM-dd') : ''}"
+                           th:value="${team.creationDate}"
                            name="creationDate">
                 </div>
             </div>
@@ -71,17 +70,6 @@
                                 th:text="${stadium.name}"
                                 th:selected="${team.stadium != null && team.stadium.id == stadium.id}">Stade</option>
                     </select>
-                </div>
-
-                <div class="mb-3">
-                    <label for="logoFile" class="form-label">Logo</label>
-                    <input type="file" class="form-control" id="logoFile" name="logoFile">
-                    <small class="form-text text-muted">Format recommandé: JPG/PNG, max 2MB</small>
-                    <div th:if="${team.logo != null}" class="mt-2">
-                        <p>Logo actuel:</p>
-                        <img th:src="@{'/img/' + ${team.logo}}" alt="Logo actuel" style="max-height: 100px;">
-                        <input type="hidden" th:field="*{logo}" />
-                    </div>
                 </div>
 
                 <div class="mb-3">

@@ -106,7 +106,7 @@ public class InitDataController {
 
         // Anciennes équipes françaises
         Team psg = new Team("Paris Saint-Germain",
-                Date.from(LocalDate.of(1970, 8, 12).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1970, 8, 12),
                 "psg.png",
                 "Luis Enrique",
                 "Nasser Al-Khelaïfi",
@@ -118,7 +118,7 @@ public class InitDataController {
                 france);
 
         Team om = new Team("Olympique de Marseille",
-                Date.from(LocalDate.of(1899, 8, 31).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1899, 8, 31),
                 "om.png",
                 "Jean-Louis Gasset",
                 "Pablo Longoria",
@@ -130,7 +130,7 @@ public class InitDataController {
                 france);
 
         Team lyon = new Team("Olympique Lyonnais",
-                Date.from(LocalDate.of(1950, 5, 3).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1950, 5, 3),
                 "lyon.png",
                 "Pierre Sage",
                 "John Textor",
@@ -142,7 +142,7 @@ public class InitDataController {
                 france);
 
         Team lille = new Team("LOSC Lille",
-                Date.from(LocalDate.of(1944, 9, 23).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1944, 9, 23),
                 "lille.png",
                 "Bruno Génésio",
                 "Olivier Létang",
@@ -155,7 +155,7 @@ public class InitDataController {
 
         // Nouvelles équipes
         Team realMadrid = new Team("Real Madrid",
-                Date.from(LocalDate.of(1902, 3, 6).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1902, 3, 6),
                 "real.png",
                 "Carlo Ancelotti",
                 "Florentino Pérez",
@@ -167,7 +167,7 @@ public class InitDataController {
                 spain);
 
         Team manU = new Team("Manchester United",
-                Date.from(LocalDate.of(1878, 3, 5).atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                LocalDate.of(1878, 3, 5),
                 "manchester.png",
                 "Erik ten Hag",
                 "Joel Glazer",

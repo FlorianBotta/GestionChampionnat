@@ -8,19 +8,14 @@ import com.ipi.gestionchampionnat.service.StadiumService;
 import com.ipi.gestionchampionnat.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/admin/teams")
@@ -42,7 +37,7 @@ public class AdminTeamController {
 
     @GetMapping
     public String listTeams(Model model) {
-        List<Team> teams = teamService.recupererTeams();
+        List<Team> teams = teamService.recupererTeamsOrderByCreationDate();
         model.addAttribute("teams", teams);
         return "admin/teams/list";
     }
@@ -65,13 +60,26 @@ public class AdminTeamController {
         return "admin/teams/form";
     }
 
+
     @PostMapping("/save")
     public String saveTeam(
             @ModelAttribute Team team,
             @RequestParam(required = false) Long countryId,
             @RequestParam(required = false) Long stadiumId,
-            @RequestParam(value = "logoFile", required = false) MultipartFile logoFile,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate creationDate,
             RedirectAttributes redirectAttributes) {
+
+        // Get existing team if it exists
+        Team existingTeam = null;
+        if (team.getId() != null) {
+            existingTeam = teamService.recupererTeam(team.getId());
+            if (existingTeam != null) {
+                // Conserver les champs qui ne sont pas dans le formulaire
+                team.setLogo(existingTeam.getLogo());  // Si vous avez un champ logo
+            }
+        }
+
+        team.setCreationDate(creationDate);
 
         // Set country if specified
         if (countryId != null) {
@@ -85,31 +93,10 @@ public class AdminTeamController {
             team.setStadium(stadium);
         }
 
-        // Handle logo upload
-        if (logoFile != null && !logoFile.isEmpty()) {
-            try {
-                // Create upload directory if it doesn't exist
-                File dir = new File("src/main/resources/static/img");
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-
-                // Generate unique filename
-                String filename = UUID.randomUUID() + "_" + logoFile.getOriginalFilename();
-                Path path = Paths.get("src/main/resources/static/img/" + filename);
-                Files.write(path, logoFile.getBytes());
-
-                // Set logo in team
-                team.setLogo(filename);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         // Save team
         teamService.modifierTeam(team);
         redirectAttributes.addFlashAttribute("successMessage",
-                "L'équipe a été " + (team.getId() == null ? "créée" : "modifiée") + " avec succès!");
+                "L'équipe a été " + (existingTeam == null ? "créée" : "modifiée") + " avec succès!");
         return "redirect:/admin/teams";
     }
 

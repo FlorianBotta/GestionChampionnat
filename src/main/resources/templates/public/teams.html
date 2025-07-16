@@ -54,7 +54,8 @@
             <tbody>
             <tr th:each="team : ${teams}">
                 <td>
-                    <img th:if="${team.logo}" th:src="@{'/img/' + ${team.logo}}" alt="Logo" class="img-fluid" style="max-height: 40px;">
+                    <img th:if="${team.logo}" th:src="@{'/img/' + ${team.logo}}" alt="Logo" class="img-fluid"
+                         style="max-height: 40px;">
                     <span th:unless="${team.logo}">Aucun logo</span>
                 </td>
                 <td><a th:href="@{'/team?teamId=' + ${team.id}}" th:text="${team.name}">Team Name</a></td>
@@ -67,9 +68,9 @@
             </tr>
             </tbody>
         </table>
-</div>
-<footer>
-    &copy; 2025 - Application Championnat
-</footer>
+    </div>
+    <footer>
+        &copy; 2025 - Application Championnat
+    </footer>
 </body>
 </html>

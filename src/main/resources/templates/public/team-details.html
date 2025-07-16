@@ -93,7 +93,7 @@
                 <h1 th:text="${team.country != null ? team.country.name : ''}">Lyon</h1>
 
                 <p><strong>Nom : </strong><span th:text="${team.name}">Olympique Lyonnais</span></p>
-                <p><strong>Fondé en : </strong><span th:text="${#dates.format(team.creationDate, 'yyyy')}">1950</span></p>
+                <p><strong>Fondé en : </strong><span th:text="${team.creationDate}">1950</span></p>
                 <p><strong>Président : </strong><span th:text="${team.president}">John Textor</span></p>
                 <p><strong>Entraineur : </strong><span th:text="${team.coach}">Paulo FONSECA</span></p>
             </div>

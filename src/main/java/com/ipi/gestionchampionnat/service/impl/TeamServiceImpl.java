@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamServiceImpl implements TeamService {
@@ -48,4 +49,16 @@ public class TeamServiceImpl implements TeamService {
     public Team recupererTeamByName(String name) {
         return teamDao.findByName(name);
     }
+
+    @Override
+    public List<Team> recupererTeamsOrderByCreationDate() {
+        return recupererTeams().stream()
+                .sorted((t1, t2) -> {
+                    if (t1.getCreationDate() == null) return 1;
+                    if (t2.getCreationDate() == null) return -1;
+                    return t1.getCreationDate().compareTo(t2.getCreationDate());
+                })
+                .collect(Collectors.toList());
+    }
+
 }
